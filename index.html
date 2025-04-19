@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Lin Lei</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            overflow-x: hidden;
+            background-color: #ffe6f0;
+        }
+        
+        .page {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        #home {
+            background: linear-gradient(rgba(255, 230, 240, 0.7), rgba(255, 200, 220, 0.8)), url('/api/placeholder/800/600');
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        #gift {
+            background: linear-gradient(rgba(255, 230, 240, 0.7), rgba(255, 200, 220, 0.8)), url('/api/placeholder/800/600');
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            display: none;
+        }
+        
+        /* Efecto de borde floral */
+        #home:before, #gift:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 15px solid transparent;
+            border-image: linear-gradient(45deg, #ff80ab, #ff4081, #ff80ab, #ff4081) 1;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #e91e63;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1.5s ease;
+            background: linear-gradient(to right, #ff0066, #ff80ab);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 3px 3px 5px rgba(255, 0, 102, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #c51162;
+            animation: fadeIn 2s ease;
+            font-style: italic;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff4081, #ff80ab);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.5);
+            margin-top: 30px;
+            animation: bounce 2s infinite;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .btn:hover:before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(45deg, #ff80ab, #ff4081);
+            transform: scale(1.05);
+        }
+        
+        .heart-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .heart {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, #ff0066, #ff4081);
+            transform: rotate(45deg);
+            margin: 75px auto;
+            box-shadow: 0 0 40px #ff6090;
+            animation: pulse 1.5s ease infinite;
+        }
+        
+        .heart:before, .heart:after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, #ff0066, #ff4081);
+            border-radius: 50%;
+        }
+        
+        .heart:before {
+            top: -75px;
+            left: 0;
+        }
+        
+        .heart:after {
+            top: 0;
+            left: -75px;
+        }
+        
+        .name {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .message {
+            margin-top: 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 600px;
+            box-shadow: 0 8px 25px rgba(255, 64, 129, 0.2);
+            border: 2px solid #ff80ab;
+        }
+        
+        .message p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .flowers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .flower {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-size: contain;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+        
+        .flower-decoration {
+            position: absolute;
+            font-size: 2.5rem;
+            opacity: 0.7;
+            z-index: 0;
+        }
+        
+        .corner-flower {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            z-index: 0;
+        }
+        
+        .top-left {
+            top: 0;
+            left: 0;
+            transform: rotate(-15deg);
+            font-size: 8rem;
+            color: #ff80ab;
+            opacity: 0.6;
+        }
+        
+        .top-right {
+            top: 0;
+            right: 0;
+            transform: rotate(15deg);
+            font-size: 8rem;
+            color: #ff80ab;
+            opacity: 0.6;
+        }
+        
+        .bottom-left {
+            bottom: 0;
+            left: 0;
+            transform: rotate(-15deg);
+            font-size: 8rem;
+            color: #ff80ab;
+            opacity: 0.6;
+        }
+        
+        .bottom-right {
+            bottom: 0;
+            right: 0;
+            transform: rotate(15deg);
+            font-size: 8rem;
+            color: #ff80ab;
+            opacity: 0.6;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #ff4081, #ff80ab);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 64, 129, 0.3);
+            z-index: 20;
+        }
+        
+        .back-btn:hover {
+            background: linear-gradient(45deg, #ff80ab, #ff4081);
+            transform: scale(1.05);
+        }
+        
+        .cherry-blossom {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        
+        .world-map {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .world-map img {
+            width: 100%;
+            height: auto;
+            opacity: 0.8;
+            border-radius: 10px;
+            border: 2px solid #ff80ab;
+        }
+        
+        .map-marker {
+            position: absolute;
+            font-size: 2rem;
+            animation: pulse-marker 2s infinite;
+        }
+        
+        .spain-marker {
+            left: 45%;
+            top: 40%;
+        }
+        
+        .singapore-marker {
+            right: 25%;
+            top: 60%;
+        }
+        
+        .heart-line {
+            position: absolute;
+            top: 50%;
+            left: 47%;
+            width: 30%;
+            height: 2px;
+            background: linear-gradient(90deg, #ff0066, #ff4081);
+            transform: rotate(30deg);
+            z-index: 0;
+        }
+        
+        .heart-line:before {
+            content: "❤️";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: move-heart 3s linear infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: rotate(45deg) scale(1); }
+            50% { transform: rotate(45deg) scale(1.1); }
+            100% { transform: rotate(45deg) scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse-marker {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes move-heart {
+            0% { left: 0; }
+            100% { left: 100%; }
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .heart-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .heart {
+                width: 120px;
+                height: 120px;
+                margin: 65px auto;
+            }
+            
+            .heart:before, .heart:after {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .heart:before {
+                top: -60px;
+            }
+            
+            .heart:after {
+                left: -60px;
+            }
+            
+            .name {
+                font-size: 1.5rem;
+            }
+            
+            .message {
+                padding: 15px;
+                margin: 20px;
+            }
+            
+            .flower-decoration, .corner-flower {
+                font-size: 5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="home" class="page">
+        <!-- Flores decorativas en las esquinas -->
+        <div class="corner-flower top-left">🌸</div>
+        <div class="corner-flower top-right">🌺</div>
+        <div class="corner-flower bottom-left">🌷</div>
+        <div class="corner-flower bottom-right">🌹</div>
+        
+        <!-- Fondo de flores de cerezo -->
+        <div class="cherry-blossom" id="cherry-blossom-home"></div>
+        
+        <h1 class="title">Happy Birthday Lin Lei!</h1>
+        <h2 class="subtitle">My beautiful lotus flower</h2>
+        
+        <div class="flowers" id="flowers-container-home"></div>
+        
+        <div class="message">
+            <p>On this special day, I want to wish the most beautiful woman in the world a birthday filled with joy, love, and happiness. 💕</p>
+            <p>Each day with you in my life is a gift, and today we celebrate the day you came into this world to brighten it with your smile. 🌟</p>
+            <p>Despite the distance between Spain and Singapore, my love for you crosses oceans and continents. 🌏</p>
+            <p>I love you with all my heart, Lin Lei. ❤️</p>
+        </div>
+        
+        <button class="btn" id="open-gift">Open your gift ❤️</button>
+    </div>
+    
+    <div id="gift" class="page">
+        <!-- Flores decorativas en las esquinas -->
+        <div class="corner-flower top-left">🌸</div>
+        <div class="corner-flower top-right">🌺</div>
+        <div class="corner-flower bottom-left">🌷</div>
+        <div class="corner-flower bottom-right">🌹</div>
+        
+        <!-- Fondo de flores de cerezo -->
+        <div class="cherry-blossom" id="cherry-blossom-gift"></div>
+        
+        <button class="back-btn" id="back-btn">← Back</button>
+        
+        <div class="flowers" id="flowers-container-gift"></div>
+        
+        <h1 class="title">My Love For You</h1>
+        <h2 class="subtitle">Distance means so little when someone means so much</h2>
+        
+        <div class="world-map">
+            <img src="/api/placeholder/600/300" alt="World Map">
+            <div class="map-marker spain-marker">🇪🇸</div>
+            <div class="map-marker singapore-marker">🇸🇬</div>
+            <div class="heart-line"></div>
+        </div>
+        
+        <div class="heart-container">
+            <div class="heart">
+                <div class="name">Lin Lei</div>
+            </div>
+        </div>
+        
+        <div class="message">
+            <p>My heart belongs completely to you. Every beat is for you. ❤️</p>
+            <p>You are the love of my life, the most beautiful flower that adorns my garden. 🌸</p>
+            <p>Though we are separated by thousands of miles — me in Spain and you in Singapore — my love for you knows no boundaries. 🌍</p>
+            <p>May this new year of your life be filled with unforgettable moments, and may we soon be together creating beautiful memories. ✨</p>
+            <p>I will love you always, today and every day. 💖</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const homeSection = document.getElementById('home');
+            const giftSection = document.getElementById('gift');
+            const openGiftBtn = document.getElementById('open-gift');
+            const backBtn = document.getElementById('back-btn');
+            const flowersContainerHome = document.getElementById('flowers-container-home');
+            const flowersContainerGift = document.getElementById('flowers-container-gift');
+            const cherryBlossomContainerHome = document.getElementById('cherry-blossom-home');
+            const cherryBlossomContainerGift = document.getElementById('cherry-blossom-gift');
+            
+            // Función para crear flores cayendo
+            function createFlowers(container) {
+                const flowerTypes = [
+                    '🌸', '🌺', '🌼', '🌹', '❤️', '💕', '💖', '🌷', '💓', '💗'
+                ];
+                
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const flower = document.createElement('div');
+                        flower.classList.add('flower');
+                        flower.textContent = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+                        flower.style.left = Math.random() * 100 + 'vw';
+                        flower.style.fontSize = (Math.random() * 25 + 15) + 'px';
+                        flower.style.animationDuration = (Math.random() * 10 + 5) + 's';
+                        container.appendChild(flower);
+                        
+                        setTimeout(() => {
+                            flower.remove();
+                        }, 15000);
+                        
+                    }, i * 200);
+                }
+            }
+            
+            // Función para crear flores de cerezo decorativas
+            function createCherryBlossoms(container) {
+                for (let i = 0; i < 20; i++) {
+                    const blossom = document.createElement('div');
+                    blossom.classList.add('flower-decoration');
+                    blossom.textContent = '🌸';
+                    blossom.style.position = 'absolute';
+                    blossom.style.left = Math.random() * 90 + 5 + '%';
+                    blossom.style.top = Math.random() * 90 + 5 + '%';
+                    blossom.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    blossom.style.opacity = Math.random() * 0.5 + 0.2;
+                    blossom.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    container.appendChild(blossom);
+                }
+                
+                for (let i = 0; i < 15; i++) {
+                    const lotus = document.createElement('div');
+                    lotus.classList.add('flower-decoration');
+                    lotus.textContent = '🪷';
+                    lotus.style.position = 'absolute';
+                    lotus.style.left = Math.random() * 90 + 5 + '%';
+                    lotus.style.top = Math.random() * 90 + 5 + '%';
+                    lotus.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                    lotus.style.opacity = Math.random() * 0.5 + 0.2;
+                    lotus.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    container.appendChild(lotus);
+                }
+                
+                for (let i = 0; i < 15; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('flower-decoration');
+                    heart.textContent = '❤️';
+                    heart.style.position = 'absolute';
+                    heart.style.left = Math.random() * 90 + 5 + '%';
+                    heart.style.top = Math.random() * 90 + 5 + '%';
+                    heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+                    heart.style.opacity = Math.random() * 0.5 + 0.2;
+                    heart.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    container.appendChild(heart);
+                }
+            }
+            
+            // Iniciar animación de flores en la página principal
+            createFlowers(flowersContainerHome);
+            createCherryBlossoms(cherryBlossomContainerHome);
+            setInterval(() => createFlowers(flowersContainerHome), 5000);
+            
+            // Preparar animaciones para la página de regalo
+            createCherryBlossoms(cherryBlossomContainerGift);
+            
+            // Navegación entre páginas
+            openGiftBtn.addEventListener('click', function() {
+                homeSection.style.display = 'none';
+                giftSection.style.display = 'flex';
+                // Iniciar animación de flores en la página de regalo cuando se abre
+                createFlowers(flowersContainerGift);
+                setInterval(() => createFlowers(flowersContainerGift), 5000);
+            });
+            
+            backBtn.addEventListener('click', function() {
+                giftSection.style.display = 'none';
+                homeSection.style.display = 'flex';
+            });
+        });
+    </script>
+</body>
+</html>
